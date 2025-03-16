@@ -3,7 +3,11 @@ dotenv.config()
 
 const FIVE_MINUTES = 1000 * 60 * 5
 
-const { NETHELY_URL } = process.env
+const {
+  NETHELY_URL,
+  DRONE_NETHELY_URL,
+  GRAFANA_NETHELY_URL,
+} = process.env
 
 const formatter = new Intl.DateTimeFormat('en-US', {
   hour12: false,
@@ -15,11 +19,21 @@ const formatter = new Intl.DateTimeFormat('en-US', {
   day: '2-digit',
 })
 
+const updateMethod = async () => {
+  return Promise.all([
+    fetch(NETHELY_URL),
+    fetch(DRONE_NETHELY_URL),
+    fetch(GRAFANA_NETHELY_URL),
+  ])
+}
+
+updateMethod()
+
 setInterval(async () => {
-  const response = await fetch(NETHELY_URL)
+  const responses = updateMethod()
   const date = new Date()
 
-  if (!response.ok) {
+  if (responses.some(response => !response.ok)) {
     console.error(`[${formatter.format(date)}] - Error while updating ddns record`)
   } else {
     console.log(`[${formatter.format(date)}] - Update OK`)
