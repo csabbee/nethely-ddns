@@ -6,7 +6,9 @@ const FIVE_MINUTES = 1000 * 60 * 5
 const {
   NETHELY_URL,
   DRONE_NETHELY_URL,
+  DRONE2_NETHELY_URL,
   GRAFANA_NETHELY_URL,
+  VERDACCIO_NETHELY_URL,
 } = process.env
 
 const formatter = new Intl.DateTimeFormat('en-US', {
@@ -23,7 +25,9 @@ const updateMethod = async () => {
   return Promise.all([
     fetch(NETHELY_URL),
     fetch(DRONE_NETHELY_URL),
+    fetch(DRONE2_NETHELY_URL),
     fetch(GRAFANA_NETHELY_URL),
+    fetch(VERDACCIO_NETHELY_URL),
   ])
 }
 
