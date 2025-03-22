@@ -37,9 +37,13 @@ setInterval(async () => {
   const responses = await updateMethod()
   const date = new Date()
 
-  if (responses.some(response => !response.ok)) {
-    console.error(`[${formatter.format(date)}] - Error while updating ddns record`)
-  } else {
-    console.log(`[${formatter.format(date)}] - Update OK`)
+  try {
+    if (responses.some(response => !response.ok)) {
+      console.error(`[${formatter.format(date)}] - Error while updating ddns record`)
+    } else {
+      console.log(`[${formatter.format(date)}] - Update OK`)
+    }
+  } catch (error) {
+    console.error(`[${formatter.format(date)}] - ${error}`)
   }
 }, FIVE_MINUTES)
