@@ -22,7 +22,7 @@ const formatter = new Intl.DateTimeFormat('en-US', {
 })
 
 const updateMethod = async () => {
-  return Promise.all([
+  return await Promise.all([
     fetch(NETHELY_URL),
     fetch(DRONE_NETHELY_URL),
     fetch(DRONE2_NETHELY_URL),
@@ -34,7 +34,7 @@ const updateMethod = async () => {
 updateMethod()
 
 setInterval(async () => {
-  const responses = updateMethod()
+  const responses = await updateMethod()
   const date = new Date()
 
   if (responses.some(response => !response.ok)) {
